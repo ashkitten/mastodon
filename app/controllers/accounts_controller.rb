@@ -29,8 +29,7 @@ class AccountsController < ApplicationController
         end
 
         @pinned_statuses = cache_collection(@account.pinned_statuses.not_local_only, Status) if show_pinned_statuses?
-        @statuses        = filtered_status_page
-        @statuses        = cache_collection(@statuses, Status)
+        @statuses        = []
         @rss_url         = rss_url
 
         unless @statuses.empty?
@@ -43,8 +42,7 @@ class AccountsController < ApplicationController
         expires_in 1.minute, public: true
 
         limit     = params[:limit].present? ? [params[:limit].to_i, PAGE_SIZE_MAX].min : PAGE_SIZE
-        @statuses = filtered_statuses.without_reblogs.limit(limit)
-        @statuses = cache_collection(@statuses, Status)
+        @statuses = []
         render xml: RSS::AccountSerializer.render(@account, @statuses, params[:tag])
       end
 
