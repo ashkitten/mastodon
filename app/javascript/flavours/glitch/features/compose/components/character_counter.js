@@ -18,6 +18,9 @@ export default class CharacterCounter extends React.PureComponent {
   }
 
   render () {
+    // character count go up
+    return <span className='character-counter'>{length(this.props.text)}</span>;
+
     const diff = this.props.max - length(this.props.text);
     return this.checkRemainingText(diff);
   }
